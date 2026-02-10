@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/commitgen_banner.png" alt="CommitGen Banner" width="100%" />
+  <img src="assets/image.png" alt="CommitGen Banner" width="100%" />
 
   [![PyPI version](https://badge.fury.io/py/commitgen.svg)](https://badge.fury.io/py/commitgen)
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
