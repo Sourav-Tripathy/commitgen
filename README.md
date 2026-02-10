@@ -1,5 +1,14 @@
 # CommitGen
 
+![CommitGen Banner](assets/commitgen_banner.png)
+
+[![PyPI version](https://badge.fury.io/py/commitgen.svg)](https://badge.fury.io/py/commitgen)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Ollama](https://img.shields.io/badge/AI-Ollama-white?logo=ollama)](https://ollama.ai)
+[![OpenRouter](https://img.shields.io/badge/AI-OpenRouter-7434eb)](https://openrouter.ai)
+
 **CommitGen** is an AI-powered CLI tool that automatically generates conventional git commit messages for your staged changes. It analyzes your `git diff`, summarizes the changes, and uses local LLMs (via Ollama) or cloud providers (via OpenRouter) to write clean, descriptive commit messages.
 
 ## Features
