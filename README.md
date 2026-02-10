@@ -4,15 +4,15 @@
 
 ## Features
 
-- 🤖 **AI-Powered**: Uses advanced LLMs to understand your code changes.
-- 🏠 **Local First**: First-class support for [Ollama](https://ollama.ai) models (Llama 3, DeepSeek, Phi-3, etc.).
-- ☁️ **Cloud Option**: Supports **OpenRouter** for access to top-tier models (GPT-4, Claude 3.5, Llama 3.1 405B) and free models.
-- ⚡ **Smart Handling**: 
+- **AI-Powered**: Uses advanced LLMs to understand your code changes.
+- **Local First**: First-class support for [Ollama](https://ollama.ai) models (Llama 3, DeepSeek, Phi-3, etc.).
+- **Cloud Option**: Supports **OpenRouter** for access to top-tier models (GPT-4, Claude 3.5, Llama 3.1 405B) and free models.
+- **Smart Handling**: 
   - Automatically starts Ollama if it's not running.
   - Smart chunking for large diffs to fit within context windows of smaller models (1B-3B parameters).
   - CPU fallback for low-VRAM systems.
-- 🔧 **Configurable**: Easy-to-use CLI for configuration management.
-- 📦 **Conventional Commits**: Generates messages following the Conventional Commits specification by default.
+- **Configurable**: Easy-to-use CLI for configuration management.
+- **Conventional Commits**: Generates messages following the Conventional Commits specification by default.
 
 ## Installation
 
@@ -107,5 +107,4 @@ MIT
 
 ## Author
 
-Sourav Tripathy
-# Test change
+[Sourav Tripathy](https://souravtripathy.com)
