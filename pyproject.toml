@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "commitgen"
-version = "0.1.0"
+version = "0.1.1"
 description = "AI-powered git commit message generator with local and cloud support"
 readme = "README.md"
 requires-python = ">=3.8"
