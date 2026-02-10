@@ -18,17 +18,24 @@ class GitHandler:
         """Check if there are staged changes"""
         if not self.repo: return False
         try:
-            return not self.repo.is_dirty() # Wait, is_dirty checks for unstaged too.
-            # Correct way to check staged changes:
-            return len(self.repo.index.diff("HEAD")) > 0 or len(self.repo.index.diff(None, staged=True)) > 0
-            # actually better:
-            return self.repo.is_dirty(index=True, working_tree=False) or bool(self.repo.index.diff("HEAD"))
+            # Check for staged changes against HEAD
+            # diff(HEAD) checks differences between index and HEAD (staged changes)
+            return len(self.repo.index.diff("HEAD")) > 0
+        except git.exc.BadName:
+            # If HEAD doesn't exist (e.g. initial commit)
+            # Check if there are any files in the index
+            # git ls-files --cached
+            try:
+                # If ls-files has output, we have staged files
+                return bool(self.repo.git.ls_files(cached=True))
+            except:
+                return False
         except Exception:
-             # If no HEAD (initial commit), checking index vs empty tree
-             try:
-                 return len(self.repo.index.diff(git.NULL_TREE)) > 0
-             except:
-                 return False
+            # Fallback to checking dirty status of index specifically
+            try:
+                return self.repo.is_dirty(index=True, working_tree=False)
+            except:
+                return False
 
     def get_staged_diff(self) -> str:
         """

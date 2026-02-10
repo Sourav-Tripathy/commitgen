@@ -1,23 +1,29 @@
-# CommitGen 🚀
+# CommitGen
 
-AI-powered git commit message generator that works with local models (Ollama) and cloud APIs (Claude, OpenRouter).
+**CommitGen** is an AI-powered CLI tool that automatically generates conventional git commit messages for your staged changes. It analyzes your `git diff`, summarizes the changes, and uses local LLMs (via Ollama) or cloud providers (via OpenRouter) to write clean, descriptive commit messages.
 
-## Why CommitGen?
+## Features
 
-- ✅ **Works offline** with Ollama (privacy-first)
-- ✅ **Supports tiny models** (1B/2B params) through smart chunking
-- ✅ **Zero Node.js required** - pure Python
-- ✅ **Free tier available** via OpenRouter
-- ✅ **Conventional commits** format by default
-- ✅ **One command** to generate and commit
+- 🤖 **AI-Powered**: Uses advanced LLMs to understand your code changes.
+- 🏠 **Local First**: First-class support for [Ollama](https://ollama.ai) models (Llama 3, DeepSeek, Phi-3, etc.).
+- ☁️ **Cloud Option**: Supports **OpenRouter** for access to top-tier models (GPT-4, Claude 3.5, Llama 3.1 405B) and free models.
+- ⚡ **Smart Handling**: 
+  - Automatically starts Ollama if it's not running.
+  - Smart chunking for large diffs to fit within context windows of smaller models (1B-3B parameters).
+  - CPU fallback for low-VRAM systems.
+- 🔧 **Configurable**: Easy-to-use CLI for configuration management.
+- 📦 **Conventional Commits**: Generates messages following the Conventional Commits specification by default.
 
 ## Installation
 
-```bash
-pip install commitgen
-```
+### Prerequisites
 
-Or install from source:
+- Python 3.8+
+- Git
+- [Ollama](https://ollama.ai) (optional, for local models)
+
+### Install from Source
+
 ```bash
 git clone https://github.com/souravtripathy/commitgen.git
 cd commitgen
@@ -26,84 +32,78 @@ pip install -e .
 
 ## Quick Start
 
-### 1. With Ollama (Recommended for local/free usage)
+1.  **Initialize Configuration**:
+    Run the interactive setup wizard to choose your provider and model.
 
-Install Ollama and pull a model:
-```bash
-# Install Ollama from https://ollama.ai
-ollama pull llama3.2:1b  # Fast, small model
-```
+    ```bash
+    commitgen init
+    ```
 
-Stage your changes and generate commit:
-```bash
-git add .
-commitgen commit
-```
+    - **Ollama**: It will detect installed models or help you download a starter model (`llama3.2:1b`).
+    - **OpenRouter**: You'll need an API key from [openrouter.ai](https://openrouter.ai).
 
-### 2. With Claude API
+2.  **Stage Your Changes**:
+    
+    ```bash
+    git add .
+    ```
 
-Set up API key:
-```bash
-commitgen init
-# Follow prompts to enter Claude API key
-```
+3.  **Generate a Commit**:
 
-Generate commit:
-```bash
-git add .
-commitgen commit
-```
+    ```bash
+    commitgen commit
+    ```
 
-### 3. With OpenRouter (Free models)
+    Review the generated message and confirm to commit!
 
-Get free API key from https://openrouter.ai
+## Configuration
+
+Manage your settings easily with the `config` command.
+
+### View Configuration
 
 ```bash
-commitgen config --set openrouter.api_key=sk-or-...
-commitgen config --set general.provider=openrouter
-commitgen commit
-```
-
-## Usage
-
-### Basic Commands
-
-```bash
-# Generate commit message (interactive)
-commitgen commit
-
-# Auto-commit with generated message
-commitgen commit --auto
-
-# Amend last commit with better message
-commitgen commit --amend
-
-# Use specific provider
-commitgen commit --provider claude
-commitgen commit --provider ollama --model llama3.2:1b
-```
-
-### Configuration
-
-```bash
-# Interactive setup
-commitgen init
-
-# View current config
 commitgen config
-
-# Set specific values
-commitgen config --set general.provider=ollama
-commitgen config --set ollama.model=qwen2.5:1b
-commitgen config --set general.max_length=50
-
-# Get specific value
-commitgen config --get general.provider
+# Or get specific value
+commitgen config --get ollama.model
 ```
+
+### Change Defaults
+
+```bash
+# Swith to a different Ollama model
+commitgen config --set ollama.model=deepseek-r1:1.5b
+
+# Change OpenRouter model
+commitgen config --set openrouter.model=google/gemma-2-27b-it:free
+```
+
+### Reset Configuration
+
+If you want to restore default settings:
+
+```bash
+commitgen config --reset
+```
+
+## Usage Tips
+
+- **Auto-Commit**: Skip confirmation with `--auto` flag.
+  ```bash
+  commitgen commit --auto
+  ```
+
+- **Override Model**: Use a specific model for just one commit.
+  ```bash
+  commitgen commit --model qwen2.5:0.5b
+  ```
+
+- **Ollama Upgrade**: If your local model is failing due to memory, CommitGen will automatically try to run it on CPU.
 
 ## License
 
-MIT License - see LICENSE file
+MIT
+ License - see LICENSE file
 
 ## Author
 

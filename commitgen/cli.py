@@ -4,6 +4,9 @@ from rich.prompt import Prompt, Confirm
 from commitgen.core.message_generator import generate_commit_message
 from commitgen.core.config_manager import ConfigManager
 from commitgen.core.git_handler import GitHandler
+import ollama
+import os
+import stat
 
 console = Console()
 
@@ -75,11 +78,19 @@ def commit(auto, amend, provider, model):
 @main.command()
 @click.option('--set', 'set_value', type=str, help='Set config value (key=value)')
 @click.option('--get', 'get_key', type=str, help='Get config value')
-def config(set_value, get_key):
+@click.option('--reset', is_flag=True, help='Reset configuration to defaults')
+def config(set_value, get_key, reset):
     """Manage commitgen configuration"""
     manager = ConfigManager()
     
-    if set_value:
+    if reset:
+        if Confirm.ask("Are you sure you want to reset all configuration to defaults?"):
+            manager._create_default()
+            console.print("[green]Configuration reset to defaults.[/green]")
+        else:
+            console.print("[yellow]Reset aborted.[/yellow]")
+            
+    elif set_value:
         try:
             key, val = set_value.split('=', 1)
             manager.set(key, val)
@@ -103,15 +114,74 @@ def init():
     manager = ConfigManager()
     console.print("[bold]Welcome to CommitGen Setup![/bold]")
     
-    provider = Prompt.ask("Choose default provider", choices=["ollama", "claude", "openrouter"], default="ollama")
+    provider = Prompt.ask("Choose default provider", choices=["ollama", "openrouter"], default="ollama")
     manager.set("general.provider", provider)
     
     if provider == "ollama":
-        model = Prompt.ask("Ollama model", default="llama3.2:1b")
+        from commitgen.providers.ollama_provider import OllamaProvider
+        
+        console.print("[cyan]Checking Ollama status...[/cyan]")
+        host = "http://localhost:11434"
+        
+        # Check if Ollama is running
+        try:
+            client = ollama.Client(host=host)
+            client.list()
+            is_running = True
+        except Exception:
+            is_running = False
+            
+        if is_running:
+            models = OllamaProvider.get_installed_models(host)
+            if models:
+                # Add "Other" option or just allow typing if Prompt supports it?
+                # Rich Prompt choices restricts input.
+                # Let's show list and ask.
+                console.print(f"[green]Found {len(models)} models:[/green]")
+                for m in models:
+                    console.print(f"- {m}")
+                    
+                model = Prompt.ask("Select Ollama model", choices=models, default=models[0])
+            else:
+                if Confirm.ask("Ollama is running but no models found. Download base model (llama3.2:1b)?", default=True):
+                    console.print("[cyan]Downloading llama3.2:1b (this may take a while)...[/cyan]")
+                    # We can use subprocess to call 'ollama pull' for better progress bar visibility
+                    # because the python client streaming is basic here.
+                    import subprocess
+                    try:
+                        subprocess.run(["ollama", "pull", "llama3.2:1b"], check=True)
+                        console.print("[green]Model downloaded![/green]")
+                        model = "llama3.2:1b"
+                    except (subprocess.CalledProcessError, FileNotFoundError):
+                        # Fallback to python client or error
+                        console.print("[yellow]CLI pull failed, trying API...[/yellow]")
+                        if OllamaProvider.pull_model("llama3.2:1b", host):
+                            console.print("[green]Model downloaded![/green]")
+                            model = "llama3.2:1b"
+                        else:
+                            console.print("[red]Download failed.[/red]")
+                            model = Prompt.ask("Enter model name manually", default="llama3.2:1b")
+                else:
+                    model = Prompt.ask("Enter model name manually", default="llama3.2:1b")
+        else:
+            console.print("[yellow]Ollama service not detected on localhost:11434[/yellow]")
+            
+            import shutil
+            if shutil.which("ollama"):
+                 console.print("Ollama is installed but not running.")
+                 if Confirm.ask("Start Ollama service now?", default=True):
+                     import subprocess
+                     # Starting in background is tricky across platforms.
+                     # "ollama serve" blocks.
+                     console.print("Please start 'ollama serve' in another terminal.")
+            else:
+                 console.print("[red]Ollama is NOT installed.[/red]")
+                 console.print("Please install Ollama from [link=https://ollama.ai]https://ollama.ai[/link]")
+            
+            model = Prompt.ask("Enter model name to use once Ollama is running", default="llama3.2:1b")
+
         manager.set("ollama.model", model)
-    elif provider == "claude":
-        key = Prompt.ask("Claude API Key", password=True)
-        manager.set("claude.api_key", key)
+
     elif provider == "openrouter":
         key = Prompt.ask("OpenRouter API Key", password=True)
         manager.set("openrouter.api_key", key)
@@ -122,8 +192,6 @@ def init():
 def install_hook():
     """Install git pre-commit hook"""
     # Create .git/hooks/prepare-commit-msg
-    import os
-    import stat
     
     hook_content = """#!/bin/sh
 # specific hook logic to call commitgen

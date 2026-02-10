@@ -3,8 +3,8 @@ from commitgen.core.git_handler import GitHandler
 from commitgen.core.diff_processor import DiffProcessor
 from commitgen.core.config_manager import ConfigManager
 from commitgen.providers.ollama_provider import OllamaProvider
-from commitgen.providers.claude_provider import ClaudeProvider
 from commitgen.providers.openrouter_provider import OpenRouterProvider
+import re
 
 class MessageGenerator:
     def __init__(self, config_manager: ConfigManager):
@@ -20,8 +20,6 @@ class MessageGenerator:
         
         if provider_name == "ollama":
             return OllamaProvider(self.config.ollama.model_dump())
-        elif provider_name == "claude":
-            return ClaudeProvider(self.config.claude.model_dump())
         elif provider_name == "openrouter":
             return OpenRouterProvider(self.config.openrouter.model_dump())
         else:
@@ -101,7 +99,6 @@ class MessageGenerator:
     
     def _is_conventional_format(self, line: str) -> bool:
         """Check if line follows conventional commits format"""
-        import re
         pattern = r'^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\(.+\))?: .+'
         return bool(re.match(pattern, line))
 

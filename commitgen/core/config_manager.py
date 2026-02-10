@@ -10,14 +10,11 @@ class OllamaConfig(BaseModel):
     timeout: int = 30
     max_tokens_per_chunk: int = 1000
 
-class ClaudeConfig(BaseModel):
-    api_key: str = ""
-    model: str = "claude-sonnet-4-5-20250929"
-    max_tokens: int = 1024
+
 
 class OpenRouterConfig(BaseModel):
     api_key: str = ""
-    model: str = "google/gemma-2-9b-it:free"
+    model: str = "meta-llama/llama-3.3-70b-instruct:free"
     site_url: str = ""
     site_name: str = "commitgen"
 
@@ -36,7 +33,6 @@ class AdvancedConfig(BaseModel):
 class Config(BaseModel):
     general: GeneralConfig = Field(default_factory=GeneralConfig)
     ollama: OllamaConfig = Field(default_factory=OllamaConfig)
-    claude: ClaudeConfig = Field(default_factory=ClaudeConfig)
     openrouter: OpenRouterConfig = Field(default_factory=OpenRouterConfig)
     advanced: AdvancedConfig = Field(default_factory=AdvancedConfig)
 

@@ -14,7 +14,7 @@ class OpenRouterProvider(BaseProvider):
     def __init__(self, config: dict):
         super().__init__(config)
         self.api_key = config.get('api_key', '')
-        self.model = config.get('model', 'google/gemma-2-9b-it:free')
+        self.model = config.get('model', 'google/gemma-3-27b-it:free')
         self.site_url = config.get('site_url', '')
         self.site_name = config.get('site_name', 'commitgen')
         

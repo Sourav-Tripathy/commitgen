@@ -3,6 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.so
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+ENV/
 .Python
 build/
 develop-eggs/
@@ -16,14 +22,12 @@ parts/
 sdist/
 var/
 wheels/
+pip-wheel-metadata/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-
-# Virtual environments
-venv/
-env/
-ENV/
+MANIFEST
 
 # IDEs
 .vscode/
@@ -43,3 +47,6 @@ Thumbs.db
 
 # Config (don't commit user configs)
 config.toml
+# Local Config
+commitgen/config.toml
+.venv/

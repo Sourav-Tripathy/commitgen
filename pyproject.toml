@@ -10,9 +10,9 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
-    {name = "Sourav Tripathy", email = "sourav.tripathy@example.com"}
+    {name = "Sourav Tripathy", email = "lipuntripathy74@gmail.com"}
 ]
-keywords = ["git", "commit", "ai", "ollama", "claude", "cli"]
+keywords = ["git", "commit", "ai", "ollama", "openrouter", "cli"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -29,7 +29,6 @@ dependencies = [
     "click>=8.0.0",
     "gitpython>=3.1.0",
     "ollama>=0.1.0",
-    "anthropic>=0.18.0",
     "openai>=1.0.0",  # For OpenRouter compatibility
     "pydantic>=2.0.0",
     "rich>=13.0.0",  # Beautiful terminal output
@@ -51,10 +50,10 @@ commitgen = "commitgen.cli:main"
 cgen = "commitgen.cli:main"  # Short alias
 
 [project.urls]
-Homepage = "https://github.com/souravtripathy/commitgen"
-Documentation = "https://github.com/souravtripathy/commitgen#readme"
-Repository = "https://github.com/souravtripathy/commitgen"
-Issues = "https://github.com/souravtripathy/commitgen/issues"
+Homepage = "https://souravtripathy.com"
+Documentation = "https://github.com/Sourav-Tripathy/commitgen#readme"
+Repository = "https://github.com/Sourav-Tripathy/commitgen"
+Issues = "https://github.com/Sourav-Tripathy/commitgen/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
