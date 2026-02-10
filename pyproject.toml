@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "commitgen"
+version = "0.1.0"
+description = "AI-powered git commit message generator with local and cloud support"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Sourav Tripathy", email = "sourav.tripathy@example.com"}
+]
+keywords = ["git", "commit", "ai", "ollama", "claude", "cli"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "click>=8.0.0",
+    "gitpython>=3.1.0",
+    "ollama>=0.1.0",
+    "anthropic>=0.18.0",
+    "openai>=1.0.0",  # For OpenRouter compatibility
+    "pydantic>=2.0.0",
+    "rich>=13.0.0",  # Beautiful terminal output
+    "toml>=0.10.0",
+    "tiktoken>=0.5.0",  # Token counting
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+
+[project.scripts]
+commitgen = "commitgen.cli:main"
+cgen = "commitgen.cli:main"  # Short alias
+
+[project.urls]
+Homepage = "https://github.com/souravtripathy/commitgen"
+Documentation = "https://github.com/souravtripathy/commitgen#readme"
+Repository = "https://github.com/souravtripathy/commitgen"
+Issues = "https://github.com/souravtripathy/commitgen/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["commitgen*"]
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311']
+
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
