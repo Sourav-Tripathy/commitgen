@@ -8,11 +8,11 @@
   [![OpenRouter](https://img.shields.io/badge/AI-OpenRouter-7434eb)](https://openrouter.ai)
 </div>
 
-**CommitGen** is an AI-powered CLI tool that automatically generates conventional git commit messages for your staged changes. It analyzes your `git diff`, summarizes the changes, and uses local LLMs (via Ollama) or cloud providers (via OpenRouter) to write clean, descriptive commit messages.
+**CommitGen** is an CLI tool that automatically generates conventional git commit messages for your staged changes. It analyzes your `git diff`, summarizes the changes, and uses local LLMs (via Ollama) or cloud providers (via OpenRouter) to write clean, descriptive commit messages.
 
 ## Features
 
-- **AI-Powered**: Uses advanced LLMs to understand your code changes.
+- **LLM-Powered**: Uses advanced LLMs to understand your code changes.
 - **Local First**: First-class support for [Ollama](https://ollama.ai) models (Llama 3, DeepSeek, Phi-3, etc.).
 - **Cloud Option**: Supports **OpenRouter** for access to top-tier models (GPT-4, Claude 3.5, Llama 3.1 405B) and free models.
 - **Smart Handling**: 
